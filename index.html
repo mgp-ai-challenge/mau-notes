@@ -2,392 +2,325 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>DMEXCO Field Notes · BidMachine</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#000426">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Field Notes">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAFcElEQVR42u3dW2wUVRyA8TOXne3uFtoaQSxNqCQtWlADpJZLSBQl8cFENxIbHywRLw+KCfFNSRRjxRdjqkkTTQQTrcFEYvtIJNFwCaY23lBTCFas2CYttKXb7nZ3Z2fGNxLLwgwV3DNnvt8rhXROvz3/nd3TRRNmswDK0VkCEAeIA8QB4gBxgDhAHCAOEAeIAyAOEAeIA8QB4gBxgDhAHCAOEAdAHCAOEAeIA8QB4gBxgDigGlPa72zpzv7o/BjGD7RJ+F1psn0EQ6SakLwSWeKIeBNyVlL5OMhC2kR0ypBZZddHpwz6kGuskEUoRoxOGWwhssRBGSFaPZ0y6EPSuxXITFcyeTaPMMVBGWFcT50y6IPnHJAvDraN8K4tOweIA7LFwUwJ9WRh5wBxQKo4mClhnyzsHCAOEAeIA8QB4gBxgDhAHCAOEAdAHCAOEAeIA8QB4gBxgDhAHCAOgDhAHCAO3Aymkld1tqtmcUJbwF8sucIueXlbTOe8qaw3Mumen3BPjzq//OUMjjiuRxxRfqzowrS0hCXqUlrjErG20bj8R5dy3je/2b0D9pFTdkQqIY6gapNautVKt1rDF923+/K9A0Wec2C+FbfqHzyb7HkxVZPUiANlbLsn9sXu6kVVGnGgjHtXGF07ksSB8h5ZF3toTYw4UN5LD8e5W1HNW7359w/nr7yVrUlpLcuNdKvVvskyAzx2NjSZ9XX66JTLzqG4kismZrzjp0svf5pLvzObKwR6QWPzKjUfY8RxVd8NlfYeygf5ylX1BnFEzsGThbztv3nU12rEETnFkhgc8X8ykYwTRyRN57wgDRFHFAV5d3dy1iWOyImZ4q7l/ksUZPQQh2raN1oJy3/nOHHGJo5oWb/SfGN7Isgd79CYmjsH5zn+xdBFTVJraTAeXW89udmKBXj9Yl9vXtXViG4ce9JVe9JV//Ef6f6q8O3ZkqpLxFhZuE+OFTu/nFP4AhkrC3Ep671+aO7zk4qfFCSO6/bjn05Hd3Y84yp/pYyV67a20ejvXNTZnqhNcYYUV0jGtee2xvvfXPzAapM4UEZtSvtsV/UTGyziQBmGLt7tSG5sUnP/4JhgmZFRl9JaGoytq83tbZbvG28xQ3TtSG7Zm1HvvVl2jvlyBW9k0j1yyn7l4Nym1zJHB/1/5o1L9KfvV/CYMXFcy4WM19Gd/fW84/uVT22xiCNy8ra3r8//3ZOmZcadyp0kJQ5/xwbtbIBj6OvuII7osR1xbtz/9dDm24kjkmby/juHer90TxyB1AQ4SZqKE0f0WKZYeZv/QuWKHnFEzoNrYlUx/13hgnLv0xKH/7B49bFAB8bUO0lKHNeyrFbv2ZUKeBvS/7tqr59z2Ge+hKXdUq21NBjb7jYfv8+qDvbBTmdGnSC3u8QRDjfkgPFlHx9V8MggY+UGGBpze44XiAPzFUvihf1Z2xHEgfllPPNh9qdhR8mr4wnpwv094T7/Ue77P5T9pSbiWIiZvLf/68J7hwsBPzSMONRnO2JgqNQ3YPcOFDNz6n84PnGU4biiWPKyBTE1645nvOGL7tCY8/Ow88M5J1uI0H+roWYcTbunSZy7FRAHiAPEAeIAcVzN+IE21vd/cPPWmZ0DxAHZ4mCyhHemsHOAOCBnHEyW8K4tOwcqGgebR0hXVVfmSigjxGOFPkK3kjzngBxxsHmEaw11ha+NMsI3VugjLOumCbO5Ule7dGc/P3KZH056BK+ZMsJxt0IfMq9PJccKI0byh40scVCJhFupdHFEsxI5x6u8caDiePkcxAHiAHGAOEAcIA4QB4gDxAHiAIgDxAHiAHGAOEAcIA4QB4gDxAEQB4gDxAHiAHGAOEAcCKt/AI+mmIeXy8OcAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAFcElEQVR42u3dW2wUVRyA8TOXne3uFtoaQSxNqCQtWlADpJZLSBQl8cFENxIbHywRLw+KCfFNSRRjxRdjqkkTTQQTrcFEYvtIJNFwCaY23lBTCFas2CYttKXb7nZ3Z2fGNxLLwgwV3DNnvt8rhXROvz3/nd3TRRNmswDK0VkCEAeIA8QB4gBxgDhAHCAOEAeIAyAOEAeIA8QB4gBxgDhAHCAOEAdAHCAOEAeIA8QB4gBxgDigGlPa72zpzv7o/BjGD7RJ+F1psn0EQ6SakLwSWeKIeBNyVlL5OMhC2kR0ypBZZddHpwz6kGuskEUoRoxOGWwhssRBGSFaPZ0y6EPSuxXITFcyeTaPMMVBGWFcT50y6IPnHJAvDraN8K4tOweIA7LFwUwJ9WRh5wBxQKo4mClhnyzsHCAOEAeIA8QB4gBxgDhAHCAOEAdAHCAOEAeIA8QB4gBxgDhAHCAOgDhAHCAO3Aymkld1tqtmcUJbwF8sucIueXlbTOe8qaw3Mumen3BPjzq//OUMjjiuRxxRfqzowrS0hCXqUlrjErG20bj8R5dy3je/2b0D9pFTdkQqIY6gapNautVKt1rDF923+/K9A0Wec2C+FbfqHzyb7HkxVZPUiANlbLsn9sXu6kVVGnGgjHtXGF07ksSB8h5ZF3toTYw4UN5LD8e5W1HNW7359w/nr7yVrUlpLcuNdKvVvskyAzx2NjSZ9XX66JTLzqG4kismZrzjp0svf5pLvzObKwR6QWPzKjUfY8RxVd8NlfYeygf5ylX1BnFEzsGThbztv3nU12rEETnFkhgc8X8ykYwTRyRN57wgDRFHFAV5d3dy1iWOyImZ4q7l/ksUZPQQh2raN1oJy3/nOHHGJo5oWb/SfGN7Isgd79CYmjsH5zn+xdBFTVJraTAeXW89udmKBXj9Yl9vXtXViG4ce9JVe9JV//Ef6f6q8O3ZkqpLxFhZuE+OFTu/nFP4AhkrC3Ep671+aO7zk4qfFCSO6/bjn05Hd3Y84yp/pYyV67a20ejvXNTZnqhNcYYUV0jGtee2xvvfXPzAapM4UEZtSvtsV/UTGyziQBmGLt7tSG5sUnP/4JhgmZFRl9JaGoytq83tbZbvG28xQ3TtSG7Zm1HvvVl2jvlyBW9k0j1yyn7l4Nym1zJHB/1/5o1L9KfvV/CYMXFcy4WM19Gd/fW84/uVT22xiCNy8ra3r8//3ZOmZcadyp0kJQ5/xwbtbIBj6OvuII7osR1xbtz/9dDm24kjkmby/juHer90TxyB1AQ4SZqKE0f0WKZYeZv/QuWKHnFEzoNrYlUx/13hgnLv0xKH/7B49bFAB8bUO0lKHNeyrFbv2ZUKeBvS/7tqr59z2Ge+hKXdUq21NBjb7jYfv8+qDvbBTmdGnSC3u8QRDjfkgPFlHx9V8MggY+UGGBpze44XiAPzFUvihf1Z2xHEgfllPPNh9qdhR8mr4wnpwv094T7/Ue77P5T9pSbiWIiZvLf/68J7hwsBPzSMONRnO2JgqNQ3YPcOFDNz6n84PnGU4biiWPKyBTE1645nvOGL7tCY8/Ow88M5J1uI0H+roWYcTbunSZy7FRAHiAPEAeIAcVzN+IE21vd/cPPWmZ0DxAHZ4mCyhHemsHOAOCBnHEyW8K4tOwcqGgebR0hXVVfmSigjxGOFPkK3kjzngBxxsHmEaw11ha+NMsI3VugjLOumCbO5Ule7dGc/P3KZH056BK+ZMsJxt0IfMq9PJccKI0byh40scVCJhFupdHFEsxI5x6u8caDiePkcxAHiAHGAOEAcIA4QB4gDxAHiAIgDxAHiAHGAOEAcIA4QB4gDxAEQB4gDxAHiAHGAOEAcCKt/AI+mmIeXy8OcAAAAAElFTkSuQmCC">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0a1628;
-    --navy-mid: #162540;
-    --teal: #1a9e75;
-    --teal-light: #e1f5ee;
-    --teal-mid: #0f6e56;
+    --navy: #000426;          /* bidmachine deep navy */
+    --navy-mid: #141a52;
+    --blue: #1666ef;          /* bidmachine brand blue */
+    --blue-dark: #0f4fc4;
+    --blue-pale: #bdd5ff;
+    --on-navy: #ffffff;
+    --on-navy-dim: rgba(255,255,255,0.72);
     --red: #E24B4A;
-    --red-light: #fce8e8;
-    --amber: #f59e0b;
-    --amber-light: #fef3c7;
-    --blue-light: #e6f1fb;
-    --green-light: #eaf3de;
-    --green-text: #3B6D11;
-    --border: rgba(0,0,0,0.1);
-    --bg: #f8f7f4;
+    --red-bg: #fce8e8;
+    --red-border: #fca5a5;
+    --red-text: #991b1b;
+    --blue-bg: #eaf1ff;
+    --blue-border: #bdd5ff;
+    --blue-text: #0f4fc4;
+    --green-bg: #e6f4ef;
+    --green-border: #a9ddc9;
+    --green-text: #0b6b4f;
+    --border: rgba(0,4,38,0.11);
+    --border-strong: rgba(0,4,38,0.18);
+    --bg: #f5f7fc;
+    --sunken: #eef2fa;
     --card: #ffffff;
-    --text: #0a1628;
-    --muted: #6b7280;
+    --text: #000426;
+    --muted: #5a6480;
     --radius: 12px;
     --radius-sm: 8px;
+    --tap: 46px;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --navy: #0b1233;
+      --navy-mid: #141a52;
+      --blue: #3b82ff;
+      --blue-dark: #1666ef;
+      --blue-pale: #bdd5ff;
+      --on-navy: #ffffff;
+      --on-navy-dim: rgba(255,255,255,0.72);
+      --red: #f0706f;
+      --red-bg: #37202a;
+      --red-border: #6b3240;
+      --red-text: #ffc4c2;
+      --blue-bg: #10204a;
+      --blue-border: #2a4a8c;
+      --blue-text: #9dc2ff;
+      --green-bg: #102e26;
+      --green-border: #2c5c4b;
+      --green-text: #8fdcc0;
+      --border: rgba(255,255,255,0.13);
+      --border-strong: rgba(255,255,255,0.22);
+      --bg: #05081c;
+      --sunken: #0f1533;
+      --card: #0d1330;
+      --text: #e6ecf8;
+      --muted: #97a1c0;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding-bottom: 2rem;
+    -webkit-font-smoothing: antialiased;
   }
 
   .app-header {
     background: var(--navy);
-    padding: 1.25rem 1.25rem 1rem;
+    padding: calc(1.05rem + env(safe-area-inset-top)) 1.25rem 1rem;
     display: flex;
     align-items: center;
     gap: 12px;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20;
   }
 
   .logo {
-    width: 38px;
-    height: 38px;
-    background: var(--teal);
+    width: 44px; height: 44px;
+    background: var(--blue);
     border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    font-weight: 600;
-    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px; font-weight: 700; color: #fff;
     flex-shrink: 0;
   }
 
-  .header-text h1 {
-    font-size: 15px;
-    font-weight: 600;
-    color: white;
-    letter-spacing: -0.01em;
-  }
+  .header-text { flex: 1; min-width: 0; }
+  .header-text h1 { font-size: 20px; font-weight: 700; color: var(--on-navy); letter-spacing: -0.02em; line-height: 1.15; }
+  .header-text h1, .header-text p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header-text p { font-size: 13px; font-weight: 600; color: var(--on-navy-dim); margin-top: 3px; letter-spacing: 0.01em; }
 
-  .header-text p {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    margin-top: 1px;
+  .counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--on-navy-dim);
+    background: rgba(255,255,255,0.09);
+    border-radius: 999px;
+    padding: 5px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
+  .counter[hidden] { display: none; }
 
-  .wrap { max-width: 520px; margin: 0 auto; padding: 1rem; }
+  .wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 1rem 1rem 0;
+  }
 
   .card {
     background: var(--card);
     border-radius: var(--radius);
     border: 1px solid var(--border);
-    padding: 1rem 1.125rem;
-    margin-bottom: 0.75rem;
+    padding: 0.9rem 1.05rem 1rem;
+    margin-bottom: 0.7rem;
   }
 
   .field-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    margin-bottom: 7px;
-    display: block;
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.07em;
+    margin-bottom: 7px; display: block;
   }
 
   select, input[type="text"], textarea {
     width: 100%;
     font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
+    font-size: 16px;              /* 16px or iOS zooms the page on focus */
+    padding: 12px;
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-sm);
-    background: var(--bg);
+    background: var(--sunken);
     color: var(--text);
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
     -webkit-appearance: none;
     appearance: none;
+    min-height: var(--tap);
   }
 
   select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6480' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
-    padding-right: 32px;
+    padding-right: 34px;
   }
 
   select:focus, input:focus, textarea:focus {
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px rgba(26,158,117,0.1);
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(22,102,239,0.18);
   }
 
-  textarea {
-    resize: vertical;
-    min-height: 110px;
-    line-height: 1.55;
-  }
+  textarea { resize: vertical; min-height: 130px; line-height: 1.55; }
 
-  .tabs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
 
   .tab-btn {
-    padding: 9px 6px;
-    border: 1px solid var(--border);
+    min-height: var(--tap);
+    padding: 10px 6px;
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-sm);
-    background: var(--bg);
+    background: var(--sunken);
     color: var(--muted);
     font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px; font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
     transition: all 0.15s;
   }
-
-  .tab-btn svg { width: 15px; height: 15px; }
-
-  .tab-btn.active {
-    background: var(--navy);
-    color: white;
-    border-color: var(--navy);
-  }
+  .tab-btn svg { width: 16px; height: 16px; }
+  .tab-btn.active { background: var(--blue); color: var(--on-navy); border-color: var(--blue); }
 
   .tab-pane { display: none; }
   .tab-pane.active { display: block; }
 
   .voice-btn {
     width: 100%;
-    padding: 16px;
-    border: 1px solid var(--border);
+    padding: 22px 16px;
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-sm);
-    background: var(--bg);
+    background: var(--sunken);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px; font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
     transition: all 0.2s;
   }
-
-  .voice-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-
+  .voice-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
   .voice-btn.recording {
-    background: var(--red-light);
-    border-color: var(--red);
-    color: #991b1b;
+    background: var(--red-bg); border-color: var(--red); color: var(--red-text);
     animation: pulse 1.5s ease-in-out infinite;
   }
+  .voice-btn.ready { border-color: var(--blue); color: var(--blue-text); background: var(--blue-bg); }
 
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(226,75,74,0.3); }
-    50% { box-shadow: 0 0 0 6px rgba(226,75,74,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(226,75,74,0.32); }
+    50% { box-shadow: 0 0 0 7px rgba(226,75,74,0); }
   }
 
   .recording-time {
     font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    color: var(--muted);
-    text-align: center;
-    margin-top: 8px;
-    min-height: 20px;
+    font-size: 15px; color: var(--muted);
+    text-align: center; margin-top: 10px; min-height: 22px;
+    font-variant-numeric: tabular-nums;
   }
-
-  .prompts {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    margin-bottom: 10px;
-  }
-
-  .prompts-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    margin-bottom: 6px;
-  }
-
-  .prompts ul { list-style: none; }
-
-  .prompts li {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.6;
-    padding-left: 14px;
-    position: relative;
-  }
-
-  .prompts li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 9px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--teal);
-  }
-
-  .prompts li span { color: var(--muted); }
-
-  .submit-btn {
-    width: 100%;
-    padding: 15px;
-    background: var(--navy);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    letter-spacing: -0.01em;
-    transition: background 0.15s, transform 0.1s;
-  }
-
-  .submit-btn:hover { background: var(--navy-mid); }
-  .submit-btn:active { transform: scale(0.99); }
-  .submit-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-  .submit-btn svg { width: 17px; height: 17px; }
 
   .status {
     border-radius: var(--radius);
-    padding: 0.875rem 1rem;
-    margin-bottom: 0.75rem;
-    font-size: 14px;
-    font-weight: 500;
-    display: none;
-    align-items: center;
-    gap: 10px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.7rem;
+    font-size: 14px; font-weight: 500;
+    display: none; align-items: center; gap: 10px;
   }
-
   .status svg { width: 17px; height: 17px; flex-shrink: 0; }
-  .status.processing { display: flex; background: var(--blue-light); color: #185FA5; border: 1px solid #B5D4F4; }
-  .status.success { display: flex; background: var(--green-light); color: var(--green-text); border: 1px solid #C0DD97; }
-  .status.error { display: flex; background: var(--red-light); color: #991b1b; border: 1px solid #fca5a5; }
+  .status.processing { display: flex; background: var(--blue-bg); color: var(--blue-text); border: 1px solid var(--blue-border); }
+  .status.success { display: flex; background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
+  .status.error { display: flex; background: var(--red-bg); color: var(--red-text); border: 1px solid var(--red-border); }
 
   .spinner {
     width: 17px; height: 17px;
-    border: 2px solid currentColor;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
+    border: 2px solid currentColor; border-top-color: transparent;
+    border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0;
   }
-
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .extra-input { margin-top: 8px; }
+  .extra-input { margin-top: 10px; }
 
-  .tip {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 6px;
-    line-height: 1.5;
+  .tip { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+  /* sticky action bar */
+  .actionbar {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, var(--bg) 22%);
+    padding: 14px 0 calc(14px + env(safe-area-inset-bottom));
+    margin-top: 4px;
   }
 
-  /* ---- Slack summary ---- */
+  .submit-btn {
+    width: 100%;
+    min-height: 54px;
+    background: var(--blue);
+    color: var(--on-navy);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    letter-spacing: -0.01em;
+    transition: background 0.15s, transform 0.1s, opacity 0.15s;
+  }
+  .submit-btn:active { transform: scale(0.99); background: var(--blue-dark); }
+  .submit-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  .submit-btn svg { width: 17px; height: 17px; }
 
+  /* result */
   .result-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: 10px;
   }
-
   .result-head .field-label { margin-bottom: 0; }
 
   .seg {
-    display: inline-flex;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 2px;
-    gap: 2px;
+    display: inline-flex; background: var(--sunken);
+    border: 1px solid var(--border); border-radius: 999px; padding: 2px; gap: 2px;
   }
-
   .seg-btn {
-    border: none;
-    background: transparent;
+    border: none; background: transparent;
     font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted);
-    padding: 5px 12px;
-    border-radius: 999px;
-    cursor: pointer;
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
     transition: all 0.15s;
   }
-
-  .seg-btn.active { background: var(--navy); color: white; }
+  .seg-btn.active { background: var(--blue); color: var(--on-navy); }
 
   .slack-box {
     font-family: 'DM Mono', ui-monospace, monospace;
-    font-size: 12.5px;
-    line-height: 1.65;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    background: var(--bg);
+    font-size: 13px; line-height: 1.7;
+    white-space: pre-wrap; word-wrap: break-word;
+    background: var(--sunken);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px;
-    max-height: 340px;
-    overflow-y: auto;
+    padding: 13px;
     color: var(--text);
   }
 
-  .audience-note {
-    font-size: 12px;
-    color: var(--muted);
-    margin: 8px 0 0;
-    line-height: 1.5;
-  }
+  .audience-note { font-size: 13px; color: var(--muted); margin-top: 9px; line-height: 1.5; }
 
-  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
   .ghost-btn {
-    padding: 12px;
-    background: var(--card);
-    color: var(--navy);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
+    min-height: 54px;
+    background: var(--card); color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px; font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
     transition: all 0.15s;
   }
-
-  .ghost-btn:hover { background: var(--bg); }
-  .ghost-btn svg { width: 15px; height: 15px; }
-
-  .ghost-btn.primary { background: var(--teal); color: white; border-color: var(--teal); }
-  .ghost-btn.primary:hover { background: var(--teal-mid); border-color: var(--teal-mid); }
-
+  .ghost-btn svg { width: 16px; height: 16px; }
+  .ghost-btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .ghost-btn.primary:active { background: var(--blue-dark); }
 </style>
 </head>
 <body>
@@ -396,8 +329,9 @@
   <div class="logo">B</div>
   <div class="header-text">
     <h1>DMEXCO Field Notes</h1>
-    <p>BidMachine Demand · Cologne · 23–24 Sept 2026</p>
+    <p>Cologne · 23–24 Sept 2026</p>
   </div>
+  <div class="counter" id="counter" hidden></div>
 </div>
 
 <div class="wrap">
@@ -405,7 +339,7 @@
   <div id="formSection">
 
     <div class="card">
-      <label class="field-label">BidMachine rep</label>
+      <label class="field-label" for="repSelect">BidMachine rep</label>
       <select id="repSelect">
         <option value="">Select your name...</option>
         <option>Mark Fruehan</option>
@@ -423,44 +357,46 @@
     </div>
 
     <div class="card">
-      <label class="field-label">Partner / company</label>
-      <input type="text" id="companyInput" placeholder="e.g. Moloco, Liftoff, Remerge, Nexxen, Yieldmo..." autocomplete="off" />
+      <label class="field-label" for="companyInput">Partner / company</label>
+      <input type="text" id="companyInput" list="partnerList" placeholder="Start typing..." autocomplete="off" autocapitalize="words" />
+      <datalist id="partnerList">
+        <option>Adikteev</option><option>Algorix</option><option>Amazon</option>
+        <option>AppLovin</option><option>Bidease</option><option>Criteo</option>
+        <option>Liftoff</option><option>Magnite</option><option>Media.net</option>
+        <option>Mintegral</option><option>Moloco</option><option>Nexxen</option>
+        <option>OpenX</option><option>Persona.ly</option><option>PubMatic</option>
+        <option>Remerge</option><option>Scope3</option><option>Smadex</option>
+        <option>Smaato</option><option>Swivel</option><option>Temu</option>
+        <option>Unity</option><option>Verve</option><option>Vistar</option>
+        <option>Yieldmo</option>
+      </datalist>
     </div>
 
     <div class="card">
       <label class="field-label">Capture method</label>
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('text',this)">
+        <button class="tab-btn active" id="tabBtn-text" onclick="switchTab('text')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           Type
         </button>
-        <button class="tab-btn" onclick="switchTab('voice',this)">
+        <button class="tab-btn" id="tabBtn-voice" onclick="switchTab('voice')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
           Voice
         </button>
       </div>
 
-      <div class="prompts">
-        <div class="prompts-title">Cover what you can</div>
-        <ul>
-          <li><strong>Market</strong> <span>: what they see happening: spend shifts, eCPM, competitors, CTV, APAC/LATAM</span></li>
-          <li><strong>Product</strong> <span>: formats, video/IBV, QPS, reporting, agentic, what's blocking them</span></li>
-          <li><strong>Commercial</strong> <span>: rebates, take rate, volume, contracts, AR, who decides</span></li>
-        </ul>
-      </div>
-
       <div class="tab-pane active" id="tab-text">
-        <textarea id="textNote" placeholder="Just braindump it. What they said, what they want, what's in the way. Claude will sort it into market / product / commercial."></textarea>
+        <textarea id="textNote" placeholder="Braindump it. Market shifts, product asks, commercial terms, next steps."></textarea>
       </div>
 
       <div class="tab-pane" id="tab-voice">
         <button class="voice-btn" id="voiceBtn" onclick="toggleRecording()">
-          <svg id="voiceIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          <span id="voiceBtnText">Tap to record voice note</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <span id="voiceBtnText">Tap to record</span>
         </button>
         <div class="recording-time" id="recordingTime"></div>
-        <p class="tip">Speak naturally. Whisper transcribes accurately even on a noisy show floor. Walk between stands and talk it out.</p>
-        <textarea id="voiceText" class="extra-input" placeholder="Optional: anything you'd rather type than say..." style="min-height:60px;"></textarea>
+        <p class="tip">Speak naturally. Whisper handles a noisy hall fine, so walk and talk it out.</p>
+        <textarea id="voiceText" class="extra-input" placeholder="Optional: anything you'd rather type than say..." style="min-height:70px;"></textarea>
       </div>
     </div>
 
@@ -471,10 +407,12 @@
       <span id="statusText"></span>
     </div>
 
-    <button class="submit-btn" id="submitBtn" onclick="submitNote()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      Process &amp; save to sheet
-    </button>
+    <div class="actionbar">
+      <button class="submit-btn" id="submitBtn" onclick="submitNote()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Process &amp; save
+      </button>
+    </div>
 
   </div>
 
@@ -493,14 +431,15 @@
           <button class="seg-btn" id="segCustomer" onclick="setAudience('customer')">Customer</button>
         </div>
       </div>
-
       <pre class="slack-box" id="slackBox"></pre>
       <p class="audience-note" id="audienceNote"></p>
+    </div>
 
+    <div class="actionbar">
       <div class="btn-row">
         <button class="ghost-btn primary" onclick="copySlack()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          <span id="copyBtnText">Copy for Slack</span>
+          <span id="copyBtnText">Copy</span>
         </button>
         <button class="ghost-btn" onclick="newNote()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -529,15 +468,75 @@ let audioMimeType = 'audio/webm';
 let recordingInterval = null;
 let recordingSeconds = 0;
 let isRecording = false;
+let progressTimers = [];
 let slackSummaries = { internal: '', customer: '' };
 let currentAudience = 'internal';
 
-function switchTab(tab, btn) {
+/* ---------- local storage (best effort, never fatal) ---------- */
+
+function store(key, value) {
+  try { localStorage.setItem('dmexco.' + key, value); } catch (e) {}
+}
+function recall(key) {
+  try { return localStorage.getItem('dmexco.' + key); } catch (e) { return null; }
+}
+function forget(key) {
+  try { localStorage.removeItem('dmexco.' + key); } catch (e) {}
+}
+
+function saveDraft() {
+  store('draft', JSON.stringify({
+    company: document.getElementById('companyInput').value,
+    textNote: document.getElementById('textNote').value,
+    voiceText: document.getElementById('voiceText').value
+  }));
+}
+
+function restoreState() {
+  const rep = recall('rep');
+  if (rep) document.getElementById('repSelect').value = rep;
+
+  const tab = recall('tab');
+  if (tab === 'voice') switchTab('voice');
+
+  try {
+    const draft = JSON.parse(recall('draft') || '{}');
+    if (draft.company) document.getElementById('companyInput').value = draft.company;
+    if (draft.textNote) document.getElementById('textNote').value = draft.textNote;
+    if (draft.voiceText) document.getElementById('voiceText').value = draft.voiceText;
+  } catch (e) {}
+
+  renderCounter();
+}
+
+function renderCounter() {
+  const today = new Date().toISOString().slice(0, 10);
+  if (recall('countDate') !== today) { store('countDate', today); store('count', '0'); }
+  const n = parseInt(recall('count') || '0', 10);
+  const el = document.getElementById('counter');
+  if (n > 0) {
+    el.textContent = n + ' today';
+    el.hidden = false;
+  } else {
+    el.hidden = true;
+  }
+}
+
+function bumpCounter() {
+  const n = parseInt(recall('count') || '0', 10) + 1;
+  store('count', String(n));
+  renderCounter();
+}
+
+/* ---------- form ---------- */
+
+function switchTab(tab) {
   currentTab = tab;
+  store('tab', tab);
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  btn.classList.add('active');
+  document.getElementById('tabBtn-' + tab).classList.add('active');
   hideStatus();
 }
 
@@ -558,7 +557,9 @@ async function toggleRecording() {
         const reader = new FileReader();
         reader.onload = e => {
           audioBase64 = e.target.result.split(',')[1];
-          document.getElementById('voiceBtnText').textContent = '✓ Ready. Tap to re-record';
+          const btn = document.getElementById('voiceBtn');
+          btn.classList.add('ready');
+          document.getElementById('voiceBtnText').textContent = 'Ready. Tap to re-record';
           document.getElementById('submitBtn').disabled = false;
         };
         reader.readAsDataURL(blob);
@@ -568,16 +569,19 @@ async function toggleRecording() {
       isRecording = true;
       audioBase64 = null;
       recordingSeconds = 0;
-      document.getElementById('voiceBtn').classList.add('recording');
-      document.getElementById('voiceBtnText').textContent = 'Recording... tap to stop';
+      const btn = document.getElementById('voiceBtn');
+      btn.classList.add('recording');
+      btn.classList.remove('ready');
+      document.getElementById('voiceBtnText').textContent = 'Recording. Tap to stop';
       document.getElementById('submitBtn').disabled = true;
+      document.getElementById('recordingTime').textContent = '0:00';
       recordingInterval = setInterval(() => {
         recordingSeconds++;
         const m = Math.floor(recordingSeconds / 60);
         const s = recordingSeconds % 60;
-        document.getElementById('recordingTime').textContent = m + ':' + String(s).padStart(2,'0');
+        document.getElementById('recordingTime').textContent = m + ':' + String(s).padStart(2, '0');
       }, 1000);
-    } catch(e) {
+    } catch (e) {
       showStatus('error', 'Microphone access denied. Allow the microphone in your browser settings.');
     }
   } else {
@@ -585,8 +589,7 @@ async function toggleRecording() {
     isRecording = false;
     clearInterval(recordingInterval);
     document.getElementById('voiceBtn').classList.remove('recording');
-    document.getElementById('voiceBtnText').textContent = 'Encoding... please wait';
-    document.getElementById('recordingTime').textContent = 'Length: ' + document.getElementById('recordingTime').textContent;
+    document.getElementById('voiceBtnText').textContent = 'Encoding...';
   }
 }
 
@@ -603,13 +606,33 @@ function showStatus(type, text) {
   document.getElementById('statusIconErr').style.display = type === 'error' ? 'block' : 'none';
 }
 
+function clearProgress() {
+  progressTimers.forEach(clearTimeout);
+  progressTimers = [];
+}
+
+function runProgress(hasAudio) {
+  clearProgress();
+  const steps = hasAudio
+    ? [[0, 'Uploading your recording...'], [3000, 'Transcribing...'], [9000, 'Summarising...']]
+    : [[0, 'Sending...'], [2000, 'Summarising...']];
+  steps.forEach(function (step) {
+    progressTimers.push(setTimeout(function () { showStatus('processing', step[1]); }, step[0]));
+  });
+  progressTimers.push(setTimeout(function () {
+    showStatus('processing', 'Still working. Long notes can take a little longer...');
+  }, 20000));
+}
+
+/* ---------- result ---------- */
+
 function setAudience(audience) {
   currentAudience = audience;
   document.getElementById('segInternal').classList.toggle('active', audience === 'internal');
   document.getElementById('segCustomer').classList.toggle('active', audience === 'customer');
   document.getElementById('slackBox').textContent = slackSummaries[audience] || '';
   document.getElementById('audienceNote').textContent = AUDIENCE_NOTES[audience];
-  document.getElementById('copyBtnText').textContent = 'Copy for Slack';
+  document.getElementById('copyBtnText').textContent = 'Copy';
 }
 
 function copySlack() {
@@ -617,7 +640,8 @@ function copySlack() {
   const label = document.getElementById('copyBtnText');
   const done = () => {
     label.textContent = 'Copied';
-    setTimeout(() => { label.textContent = 'Copy for Slack'; }, 1800);
+    if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) {} }
+    setTimeout(() => { label.textContent = 'Copy'; }, 1800);
   };
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
@@ -635,7 +659,7 @@ function fallbackCopy(text, done) {
   document.body.appendChild(ta);
   ta.select();
   ta.setSelectionRange(0, text.length);
-  try { document.execCommand('copy'); done(); } catch(e) {}
+  try { document.execCommand('copy'); done(); } catch (e) {}
   document.body.removeChild(ta);
 }
 
@@ -645,15 +669,20 @@ function newNote() {
   document.getElementById('textNote').value = '';
   document.getElementById('companyInput').value = '';
   document.getElementById('voiceText').value = '';
-  document.getElementById('voiceBtnText').textContent = 'Tap to record voice note';
+  const vb = document.getElementById('voiceBtn');
+  vb.classList.remove('ready', 'recording');
+  document.getElementById('voiceBtnText').textContent = 'Tap to record';
   document.getElementById('recordingTime').textContent = '';
   audioBase64 = null;
   recordingSeconds = 0;
   document.getElementById('submitBtn').disabled = false;
   slackSummaries = { internal: '', customer: '' };
+  forget('draft');
   hideStatus();
   window.scrollTo(0, 0);
 }
+
+/* ---------- submit ---------- */
 
 async function submitNote() {
   const rep = document.getElementById('repSelect').value;
@@ -670,7 +699,9 @@ async function submitNote() {
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  showStatus('processing', 'Transcribing and summarising, about 15 seconds...');
+
+  const hasAudio = currentTab === 'voice' && !!audioBase64;
+  runProgress(hasAudio);
 
   let rawContent = '';
   if (currentTab === 'text') rawContent = textVal;
@@ -682,7 +713,7 @@ async function submitNote() {
     company: company,
     capture_method: currentTab,
     raw_content: rawContent,
-    audio_base64: currentTab === 'voice' && audioBase64 ? audioBase64 : null,
+    audio_base64: hasAudio ? audioBase64 : null,
     audio_mime_type: currentTab === 'voice' ? audioMimeType : null
   };
 
@@ -696,6 +727,7 @@ async function submitNote() {
     });
 
     const result = await res.json();
+    clearProgress();
 
     if (!result.ok) {
       showStatus('error', result.error || 'Something went wrong. Your note was not saved.');
@@ -708,20 +740,33 @@ async function submitNote() {
       customer: result.slack_customer || ''
     };
 
-    document.getElementById('savedText').textContent =
-      'Saved to the sheet: ' + company;
+    document.getElementById('savedText').textContent = 'Saved to the sheet: ' + company;
+
+    forget('draft');
+    bumpCounter();
 
     document.getElementById('formSection').style.display = 'none';
     document.getElementById('resultSection').style.display = 'block';
     setAudience('internal');
     window.scrollTo(0, 0);
 
-  } catch(e) {
-    showStatus('error', 'Could not reach the server. Check your connection and try again. Your note is still in the box.');
+  } catch (e) {
+    clearProgress();
+    showStatus('error', 'Could not reach the server. Your note is saved on this phone, so try again when you have signal.');
     btn.disabled = false;
   }
 }
 
+/* ---------- wiring ---------- */
+
+document.getElementById('repSelect').addEventListener('change', function () {
+  store('rep', this.value);
+});
+['companyInput', 'textNote', 'voiceText'].forEach(function (id) {
+  document.getElementById(id).addEventListener('input', saveDraft);
+});
+
+restoreState();
 </script>
 </body>
 </html>
