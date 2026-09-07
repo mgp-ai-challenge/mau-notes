@@ -169,7 +169,7 @@
 
   textarea { resize: vertical; min-height: 130px; line-height: 1.55; }
 
-  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }
 
   .tab-btn {
     min-height: var(--tap);
@@ -185,6 +185,7 @@
     transition: all 0.15s;
   }
   .tab-btn svg { width: 16px; height: 16px; }
+  @media (max-width: 380px) { .tab-btn { font-size: 13px; gap: 5px; } }
   .tab-btn.active { background: var(--blue); color: var(--on-navy); border-color: var(--blue); }
 
   .tab-pane { display: none; }
@@ -305,7 +306,11 @@
 
   .audience-note { font-size: 13px; color: var(--muted); margin-top: 9px; line-height: 1.5; }
 
-  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-row { display: grid; grid-template-columns: 1.35fr 1fr; gap: 8px; }
+  .dest-note {
+    font-size: 12px; color: var(--muted);
+    text-align: center; margin-top: 8px; line-height: 1.4;
+  }
 
   .ghost-btn {
     min-height: 54px;
@@ -383,6 +388,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
           Voice
         </button>
+        <button class="tab-btn" id="tabBtn-slack" onclick="switchTab('slack')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 00-6 0v4"/><rect x="2" y="9" width="20" height="11" rx="2"/><path d="M8 14h8"/></svg>
+          Slack
+        </button>
       </div>
 
       <div class="tab-pane active" id="tab-text">
@@ -397,6 +406,11 @@
         <div class="recording-time" id="recordingTime"></div>
         <p class="tip">Speak naturally. Whisper handles a noisy hall fine, so walk and talk it out.</p>
         <textarea id="voiceText" class="extra-input" placeholder="Optional: anything you'd rather type than say..." style="min-height:70px;"></textarea>
+      </div>
+
+      <div class="tab-pane" id="tab-slack">
+        <textarea id="slackNote" placeholder="Paste the Slack message here."></textarea>
+        <p class="tip">Copy the message text out of Slack and paste it. Whoever wrote it, it gets filed against the partner you named above.</p>
       </div>
     </div>
 
@@ -437,15 +451,16 @@
 
     <div class="actionbar">
       <div class="btn-row">
-        <button class="ghost-btn primary" onclick="copySlack()">
+        <button class="ghost-btn primary" onclick="copyAndOpen()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          <span id="copyBtnText">Copy</span>
+          <span id="copyBtnText">Copy &amp; open Slack</span>
         </button>
         <button class="ghost-btn" onclick="newNote()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New note
         </button>
       </div>
+      <p class="dest-note">Opens Slack in a new tab. Paste it wherever it needs to go.</p>
     </div>
 
   </div>
@@ -454,6 +469,10 @@
 
 <script>
 const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwVqeCPRR5uT_VftQN0GEEr1f0KixfviFS10UMq4E_TwqmlNQp0s3yZW22ox0UlK_ur/exec';
+
+// A web permalink, not slack:// - this opens the native app through Slack's
+// universal links and falls back to the web app when it is not installed.
+const SLACK_URL = 'https://appodeal.slack.com/';
 
 const AUDIENCE_NOTES = {
   internal: 'Candid version. Risks and next steps included. For the team channel.',
@@ -488,7 +507,8 @@ function saveDraft() {
   store('draft', JSON.stringify({
     company: document.getElementById('companyInput').value,
     textNote: document.getElementById('textNote').value,
-    voiceText: document.getElementById('voiceText').value
+    voiceText: document.getElementById('voiceText').value,
+    slackNote: document.getElementById('slackNote').value
   }));
 }
 
@@ -497,13 +517,14 @@ function restoreState() {
   if (rep) document.getElementById('repSelect').value = rep;
 
   const tab = recall('tab');
-  if (tab === 'voice') switchTab('voice');
+  if (tab === 'voice' || tab === 'slack') switchTab(tab);
 
   try {
     const draft = JSON.parse(recall('draft') || '{}');
     if (draft.company) document.getElementById('companyInput').value = draft.company;
     if (draft.textNote) document.getElementById('textNote').value = draft.textNote;
     if (draft.voiceText) document.getElementById('voiceText').value = draft.voiceText;
+    if (draft.slackNote) document.getElementById('slackNote').value = draft.slackNote;
   } catch (e) {}
 
   renderCounter();
@@ -615,7 +636,9 @@ function runProgress(hasAudio) {
   clearProgress();
   const steps = hasAudio
     ? [[0, 'Uploading your recording...'], [3000, 'Transcribing...'], [9000, 'Summarising...']]
-    : [[0, 'Sending...'], [2000, 'Summarising...']];
+    : currentTab === 'slack'
+      ? [[0, 'Reading the Slack message...'], [2500, 'Summarising...']]
+      : [[0, 'Sending...'], [2000, 'Summarising...']];
   steps.forEach(function (step) {
     progressTimers.push(setTimeout(function () { showStatus('processing', step[1]); }, step[0]));
   });
@@ -632,25 +655,34 @@ function setAudience(audience) {
   document.getElementById('segCustomer').classList.toggle('active', audience === 'customer');
   document.getElementById('slackBox').textContent = slackSummaries[audience] || '';
   document.getElementById('audienceNote').textContent = AUDIENCE_NOTES[audience];
-  document.getElementById('copyBtnText').textContent = 'Copy';
+  document.getElementById('copyBtnText').textContent = 'Copy & open Slack';
 }
 
-function copySlack() {
+/**
+ * Copy, then open Slack in a new tab.
+ *
+ * The copy is done synchronously first. Awaiting navigator.clipboard and then
+ * calling window.open drops us out of the user gesture, and Safari blocks the
+ * window. So: execCommand inside the gesture, async clipboard only as a backup.
+ */
+function copyAndOpen() {
   const text = slackSummaries[currentAudience] || '';
-  const label = document.getElementById('copyBtnText');
-  const done = () => {
-    label.textContent = 'Copied';
-    if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) {} }
-    setTimeout(() => { label.textContent = 'Copy'; }, 1800);
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-  } else {
-    fallbackCopy(text, done);
+  const copied = syncCopy(text);
+
+  if (!copied && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(function () {});
   }
+
+  const label = document.getElementById('copyBtnText');
+  label.textContent = 'Copied';
+  if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) {} }
+  setTimeout(function () { label.textContent = 'Copy & open Slack'; }, 2500);
+
+  window.open(SLACK_URL, '_blank');
 }
 
-function fallbackCopy(text, done) {
+/** Synchronous clipboard write, so the window.open after it is not blocked. */
+function syncCopy(text) {
   const ta = document.createElement('textarea');
   ta.value = text;
   ta.setAttribute('readonly', '');
@@ -659,8 +691,10 @@ function fallbackCopy(text, done) {
   document.body.appendChild(ta);
   ta.select();
   ta.setSelectionRange(0, text.length);
-  try { document.execCommand('copy'); done(); } catch (e) {}
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
   document.body.removeChild(ta);
+  return ok;
 }
 
 function newNote() {
@@ -669,6 +703,7 @@ function newNote() {
   document.getElementById('textNote').value = '';
   document.getElementById('companyInput').value = '';
   document.getElementById('voiceText').value = '';
+  document.getElementById('slackNote').value = '';
   const vb = document.getElementById('voiceBtn');
   vb.classList.remove('ready', 'recording');
   document.getElementById('voiceBtnText').textContent = 'Tap to record';
@@ -693,9 +728,11 @@ async function submitNote() {
 
   const textVal = document.getElementById('textNote').value.trim();
   const voiceExtra = document.getElementById('voiceText').value.trim();
+  const slackVal = document.getElementById('slackNote').value.trim();
 
   if (currentTab === 'text' && !textVal) { showStatus('error', 'Please add your meeting notes.'); return; }
   if (currentTab === 'voice' && !audioBase64 && !voiceExtra) { showStatus('error', 'Please record a voice note or add text.'); return; }
+  if (currentTab === 'slack' && !slackVal) { showStatus('error', 'Please paste a Slack message or a link to one.'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
@@ -705,6 +742,7 @@ async function submitNote() {
 
   let rawContent = '';
   if (currentTab === 'text') rawContent = textVal;
+  else if (currentTab === 'slack') rawContent = slackVal;
   else rawContent = voiceExtra ? 'Additional context: ' + voiceExtra : '';
 
   const payload = {
@@ -762,7 +800,7 @@ async function submitNote() {
 document.getElementById('repSelect').addEventListener('change', function () {
   store('rep', this.value);
 });
-['companyInput', 'textNote', 'voiceText'].forEach(function (id) {
+['companyInput', 'textNote', 'voiceText', 'slackNote'].forEach(function (id) {
   document.getElementById(id).addEventListener('input', saveDraft);
 });
 
