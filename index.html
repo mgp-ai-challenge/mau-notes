@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>MAU Field Notes — BidMachine</title>
+<title>DMEXCO Field Notes · BidMachine</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -125,13 +125,13 @@
 
   textarea {
     resize: vertical;
-    min-height: 90px;
+    min-height: 110px;
     line-height: 1.55;
   }
 
   .tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 6px;
     margin-bottom: 12px;
   }
@@ -205,28 +205,45 @@
     min-height: 20px;
   }
 
-  .photo-drop {
-    width: 100%;
-    padding: 28px 16px;
-    border: 1.5px dashed var(--border);
-    border-radius: var(--radius-sm);
+  .prompts {
     background: var(--bg);
-    color: var(--muted);
-    font-size: 14px;
-    cursor: pointer;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    transition: border-color 0.15s;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    margin-bottom: 10px;
   }
 
-  .photo-drop:hover { border-color: var(--teal); }
-  .photo-drop svg { width: 28px; height: 28px; color: var(--muted); }
+  .prompts-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 6px;
+  }
 
-  .photo-preview { width: 100%; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); margin-bottom: 8px; }
-  .photo-preview img { width: 100%; display: block; }
+  .prompts ul { list-style: none; }
+
+  .prompts li {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .prompts li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+
+  .prompts li span { color: var(--muted); }
 
   .submit-btn {
     width: 100%;
@@ -287,6 +304,90 @@
     margin-top: 6px;
     line-height: 1.5;
   }
+
+  /* ---- Slack summary ---- */
+
+  .result-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .result-head .field-label { margin-bottom: 0; }
+
+  .seg {
+    display: inline-flex;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px;
+    gap: 2px;
+  }
+
+  .seg-btn {
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .seg-btn.active { background: var(--navy); color: white; }
+
+  .slack-box {
+    font-family: 'DM Mono', ui-monospace, monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    max-height: 340px;
+    overflow-y: auto;
+    color: var(--text);
+  }
+
+  .audience-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 8px 0 0;
+    line-height: 1.5;
+  }
+
+  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+
+  .ghost-btn {
+    padding: 12px;
+    background: var(--card);
+    color: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: all 0.15s;
+  }
+
+  .ghost-btn:hover { background: var(--bg); }
+  .ghost-btn svg { width: 15px; height: 15px; }
+
+  .ghost-btn.primary { background: var(--teal); color: white; border-color: var(--teal); }
+  .ghost-btn.primary:hover { background: var(--teal-mid); border-color: var(--teal-mid); }
+
 </style>
 </head>
 <body>
@@ -294,97 +395,133 @@
 <div class="app-header">
   <div class="logo">B</div>
   <div class="header-text">
-    <h1>MAU Field Notes</h1>
-    <p>BidMachine · May 2026</p>
+    <h1>DMEXCO Field Notes</h1>
+    <p>BidMachine Demand · Cologne · 23–24 Sept 2026</p>
   </div>
 </div>
 
 <div class="wrap">
 
-  <div class="card">
-    <label class="field-label">Sales rep</label>
-    <select id="repSelect">
-      <option value="">Select your name...</option>
-      <option>Mark Fruehan</option>
-      <option>Paul Childs</option>
-      <option>Randy Barenscott</option>
-      <option>Joel Chang</option>
-      <option>Nathan Boyer</option>
-      <option>Berta Moreno</option>
-      <option>Gaetan Pauchet</option>
-      <option>Michael Lotfy</option>
-      <option>Mykhailo Kukharskyi</option>
-    </select>
-  </div>
+  <div id="formSection">
 
-  <div class="card">
-    <label class="field-label">Company / publisher</label>
-    <input type="text" id="companyInput" placeholder="e.g. Voodoo, Jam City, Miniclip..." autocomplete="off" />
-  </div>
-
-  <div class="card">
-    <label class="field-label">Capture method</label>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('text',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        Text
-      </button>
-      <button class="tab-btn" onclick="switchTab('photo',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        Photo
-      </button>
-      <button class="tab-btn" onclick="switchTab('voice',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        Voice
-      </button>
+    <div class="card">
+      <label class="field-label">BidMachine rep</label>
+      <select id="repSelect">
+        <option value="">Select your name...</option>
+        <option>Mark Fruehan</option>
+        <option>Fernando Granata</option>
+        <option>Ryan Christopher</option>
+        <option>Berta Moreno</option>
+        <option>Viktor Trykolenko</option>
+        <option>Radu Stoia</option>
+        <option>Andrea Aloisi</option>
+        <option>Burak Mavis</option>
+        <option>Robertas Gircys</option>
+        <option>Elica Scetbon</option>
+        <option>Olubukola Reis</option>
+      </select>
     </div>
 
-    <div class="tab-pane active" id="tab-text">
-      <textarea id="textNote" placeholder="Key points from the meeting — what they said, next steps, blockers, deal signals..."></textarea>
+    <div class="card">
+      <label class="field-label">Partner / company</label>
+      <input type="text" id="companyInput" placeholder="e.g. Moloco, Liftoff, Remerge, Nexxen, Yieldmo..." autocomplete="off" />
     </div>
 
-    <div class="tab-pane" id="tab-photo">
-      <div id="photoPreview" class="photo-preview" style="display:none;"></div>
-      <div class="photo-drop" id="photoDropzone" onclick="document.getElementById('photoInput').click()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span style="font-weight:500;">Tap to take photo</span>
-        <span style="font-size:12px;">Notepad, whiteboard, business card</span>
+    <div class="card">
+      <label class="field-label">Capture method</label>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('text',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Type
+        </button>
+        <button class="tab-btn" onclick="switchTab('voice',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          Voice
+        </button>
       </div>
-      <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)" />
-      <textarea id="photoText" class="extra-input" placeholder="Add context or extra notes alongside the photo..." style="min-height:60px;"></textarea>
+
+      <div class="prompts">
+        <div class="prompts-title">Cover what you can</div>
+        <ul>
+          <li><strong>Market</strong> <span>: what they see happening: spend shifts, eCPM, competitors, CTV, APAC/LATAM</span></li>
+          <li><strong>Product</strong> <span>: formats, video/IBV, QPS, reporting, agentic, what's blocking them</span></li>
+          <li><strong>Commercial</strong> <span>: rebates, take rate, volume, contracts, AR, who decides</span></li>
+        </ul>
+      </div>
+
+      <div class="tab-pane active" id="tab-text">
+        <textarea id="textNote" placeholder="Just braindump it. What they said, what they want, what's in the way. Claude will sort it into market / product / commercial."></textarea>
+      </div>
+
+      <div class="tab-pane" id="tab-voice">
+        <button class="voice-btn" id="voiceBtn" onclick="toggleRecording()">
+          <svg id="voiceIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <span id="voiceBtnText">Tap to record voice note</span>
+        </button>
+        <div class="recording-time" id="recordingTime"></div>
+        <p class="tip">Speak naturally. Whisper transcribes accurately even on a noisy show floor. Walk between stands and talk it out.</p>
+        <textarea id="voiceText" class="extra-input" placeholder="Optional: anything you'd rather type than say..." style="min-height:60px;"></textarea>
+      </div>
     </div>
 
-    <div class="tab-pane" id="tab-voice">
-      <button class="voice-btn" id="voiceBtn" onclick="toggleRecording()">
-        <svg id="voiceIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        <span id="voiceBtnText">Tap to record voice note</span>
-      </button>
-      <div class="recording-time" id="recordingTime"></div>
-      <p class="tip">Speak naturally — Whisper AI will transcribe your recording accurately even in noisy environments.</p>
-      <textarea id="voiceText" class="extra-input" placeholder="Optional: add any extra context alongside your voice note..." style="min-height:60px;"></textarea>
+    <div class="status" id="statusCard">
+      <div class="spinner" id="statusSpinner"></div>
+      <svg id="statusIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg id="statusIconErr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span id="statusText"></span>
     </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitNote()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Process &amp; save to sheet
+    </button>
+
   </div>
 
-  <div class="status" id="statusCard">
-    <div class="spinner" id="statusSpinner"></div>
-    <svg id="statusIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-    <svg id="statusIconErr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <span id="statusText"></span>
-  </div>
+  <div id="resultSection" style="display:none;">
 
-  <button class="submit-btn" id="submitBtn" onclick="submitNote()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    Process &amp; save to sheet
-  </button>
+    <div class="status success" id="savedBanner" style="display:flex;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <span id="savedText">Saved to the sheet.</span>
+    </div>
+
+    <div class="card">
+      <div class="result-head">
+        <span class="field-label">Slack summary</span>
+        <div class="seg">
+          <button class="seg-btn active" id="segInternal" onclick="setAudience('internal')">Internal</button>
+          <button class="seg-btn" id="segCustomer" onclick="setAudience('customer')">Customer</button>
+        </div>
+      </div>
+
+      <pre class="slack-box" id="slackBox"></pre>
+      <p class="audience-note" id="audienceNote"></p>
+
+      <div class="btn-row">
+        <button class="ghost-btn primary" onclick="copySlack()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span id="copyBtnText">Copy for Slack</span>
+        </button>
+        <button class="ghost-btn" onclick="newNote()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New note
+        </button>
+      </div>
+    </div>
+
+  </div>
 
 </div>
 
 <script>
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwCdYzAOkFZjgts9Nl6X5uqqYGSuiu-tUvUpmNCJ8A8q3KbVTYSlVlZhDAqyd3x4TQm/exec';
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwVqeCPRR5uT_VftQN0GEEr1f0KixfviFS10UMq4E_TwqmlNQp0s3yZW22ox0UlK_ur/exec';
+
+const AUDIENCE_NOTES = {
+  internal: 'Candid version. Risks and next steps included. For the team channel.',
+  customer: 'Recap you can send the partner. No internal shorthand. Read it before you send.'
+};
 
 let currentTab = 'text';
-let photoBase64 = null;
-let photoMimeType = null;
 let mediaRecorder = null;
 let audioChunks = [];
 let audioBase64 = null;
@@ -392,7 +529,8 @@ let audioMimeType = 'audio/webm';
 let recordingInterval = null;
 let recordingSeconds = 0;
 let isRecording = false;
-let audioReady = false;
+let slackSummaries = { internal: '', customer: '' };
+let currentAudience = 'internal';
 
 function switchTab(tab, btn) {
   currentTab = tab;
@@ -403,32 +541,16 @@ function switchTab(tab, btn) {
   hideStatus();
 }
 
-function handlePhoto(input) {
-  const file = input.files[0];
-  if (!file) return;
-  photoMimeType = file.type;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const dataUrl = e.target.result;
-    photoBase64 = dataUrl.split(',')[1];
-    const preview = document.getElementById('photoPreview');
-    preview.style.display = 'block';
-    preview.innerHTML = '<img src="' + dataUrl + '" alt="Captured note" />';
-    document.getElementById('photoDropzone').style.display = 'none';
-  };
-  reader.readAsDataURL(file);
-}
-
 async function toggleRecording() {
   if (!isRecording) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       audioChunks = [];
-      
+
       const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' :
                        MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/ogg';
       audioMimeType = mimeType;
-      
+
       mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
       mediaRecorder.onstop = () => {
@@ -436,8 +558,7 @@ async function toggleRecording() {
         const reader = new FileReader();
         reader.onload = e => {
           audioBase64 = e.target.result.split(',')[1];
-          audioReady = true;
-          document.getElementById('voiceBtnText').textContent = '✓ Ready — tap to re-record';
+          document.getElementById('voiceBtnText').textContent = '✓ Ready. Tap to re-record';
           document.getElementById('submitBtn').disabled = false;
         };
         reader.readAsDataURL(blob);
@@ -445,7 +566,6 @@ async function toggleRecording() {
       };
       mediaRecorder.start(100);
       isRecording = true;
-      audioReady = false;
       audioBase64 = null;
       recordingSeconds = 0;
       document.getElementById('voiceBtn').classList.add('recording');
@@ -458,7 +578,7 @@ async function toggleRecording() {
         document.getElementById('recordingTime').textContent = m + ':' + String(s).padStart(2,'0');
       }, 1000);
     } catch(e) {
-      showStatus('error', 'Microphone access denied. Please allow microphone in your browser settings.');
+      showStatus('error', 'Microphone access denied. Allow the microphone in your browser settings.');
     }
   } else {
     mediaRecorder.stop();
@@ -483,19 +603,56 @@ function showStatus(type, text) {
   document.getElementById('statusIconErr').style.display = type === 'error' ? 'block' : 'none';
 }
 
-function resetForm() {
+function setAudience(audience) {
+  currentAudience = audience;
+  document.getElementById('segInternal').classList.toggle('active', audience === 'internal');
+  document.getElementById('segCustomer').classList.toggle('active', audience === 'customer');
+  document.getElementById('slackBox').textContent = slackSummaries[audience] || '';
+  document.getElementById('audienceNote').textContent = AUDIENCE_NOTES[audience];
+  document.getElementById('copyBtnText').textContent = 'Copy for Slack';
+}
+
+function copySlack() {
+  const text = slackSummaries[currentAudience] || '';
+  const label = document.getElementById('copyBtnText');
+  const done = () => {
+    label.textContent = 'Copied';
+    setTimeout(() => { label.textContent = 'Copy for Slack'; }, 1800);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'absolute';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  ta.setSelectionRange(0, text.length);
+  try { document.execCommand('copy'); done(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+function newNote() {
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('formSection').style.display = 'block';
   document.getElementById('textNote').value = '';
   document.getElementById('companyInput').value = '';
-  document.getElementById('repSelect').value = '';
-  document.getElementById('photoText').value = '';
   document.getElementById('voiceText').value = '';
   document.getElementById('voiceBtnText').textContent = 'Tap to record voice note';
   document.getElementById('recordingTime').textContent = '';
-  photoBase64 = null; audioBase64 = null; audioReady = false;
-  document.getElementById('photoPreview').style.display = 'none';
-  document.getElementById('photoDropzone').style.display = 'flex';
-  document.getElementById('submitBtn').disabled = false;
+  audioBase64 = null;
   recordingSeconds = 0;
+  document.getElementById('submitBtn').disabled = false;
+  slackSummaries = { internal: '', customer: '' };
+  hideStatus();
+  window.scrollTo(0, 0);
 }
 
 async function submitNote() {
@@ -503,52 +660,68 @@ async function submitNote() {
   const company = document.getElementById('companyInput').value.trim();
 
   if (!rep) { showStatus('error', 'Please select your name.'); return; }
-  if (!company) { showStatus('error', 'Please enter a company name.'); return; }
+  if (!company) { showStatus('error', 'Please enter a partner or company name.'); return; }
 
   const textVal = document.getElementById('textNote').value.trim();
-  const photoExtra = document.getElementById('photoText').value.trim();
   const voiceExtra = document.getElementById('voiceText').value.trim();
 
   if (currentTab === 'text' && !textVal) { showStatus('error', 'Please add your meeting notes.'); return; }
-  if (currentTab === 'photo' && !photoBase64 && !photoExtra) { showStatus('error', 'Please take a photo or add notes.'); return; }
   if (currentTab === 'voice' && !audioBase64 && !voiceExtra) { showStatus('error', 'Please record a voice note or add text.'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  showStatus('processing', 'Sending to AI for processing...');
+  showStatus('processing', 'Transcribing and summarising, about 15 seconds...');
 
   let rawContent = '';
   if (currentTab === 'text') rawContent = textVal;
-  else if (currentTab === 'photo') rawContent = (photoBase64 ? '[Photo attached]' : '') + (photoExtra ? '\n\n' + photoExtra : '');
-  else if (currentTab === 'voice') rawContent = '[Voice recording — ' + recordingSeconds + 's]' + (voiceExtra ? '\n\nAdditional context: ' + voiceExtra : '');
+  else rawContent = voiceExtra ? 'Additional context: ' + voiceExtra : '';
 
   const payload = {
     timestamp: new Date().toISOString(),
-    rep,
-    company,
+    rep: rep,
+    company: company,
     capture_method: currentTab,
     raw_content: rawContent,
-    photo_base64: currentTab === 'photo' && photoBase64 ? photoBase64 : null,
-    photo_mime_type: currentTab === 'photo' ? photoMimeType : null,
     audio_base64: currentTab === 'voice' && audioBase64 ? audioBase64 : null,
     audio_mime_type: currentTab === 'voice' ? audioMimeType : null
   };
 
   try {
-    await fetch(WEBHOOK_URL, {
+    // text/plain avoids a CORS preflight, which Apps Script cannot answer.
+    // doPost still JSON.parses e.postData.contents.
+    const res = await fetch(WEBHOOK_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
-    showStatus('success', 'Sent! Claude is processing — check your sheet in ~15 seconds.');
-    resetForm();
-  } catch(e) {
-    showStatus('error', 'Failed to send. Check your internet connection and try again.');
-  }
 
-  btn.disabled = false;
+    const result = await res.json();
+
+    if (!result.ok) {
+      showStatus('error', result.error || 'Something went wrong. Your note was not saved.');
+      btn.disabled = false;
+      return;
+    }
+
+    slackSummaries = {
+      internal: result.slack_internal || '',
+      customer: result.slack_customer || ''
+    };
+
+    document.getElementById('savedText').textContent =
+      'Saved to the sheet: ' + company;
+
+    document.getElementById('formSection').style.display = 'none';
+    document.getElementById('resultSection').style.display = 'block';
+    setAudience('internal');
+    window.scrollTo(0, 0);
+
+  } catch(e) {
+    showStatus('error', 'Could not reach the server. Check your connection and try again. Your note is still in the box.');
+    btn.disabled = false;
+  }
 }
+
 </script>
 </body>
 </html>
