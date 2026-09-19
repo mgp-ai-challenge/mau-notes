@@ -221,7 +221,10 @@
     font-size: 15px; color: var(--muted);
     text-align: center; margin-top: 10px; min-height: 22px;
     font-variant-numeric: tabular-nums;
+    transition: color 0.3s;
   }
+  .recording-time.long { color: #b45309; font-weight: 500; }
+  .recording-time.toolong { color: var(--red); font-weight: 500; }
 
   .status {
     border-radius: var(--radius);
@@ -404,7 +407,7 @@
           <span id="voiceBtnText">Tap to record</span>
         </button>
         <div class="recording-time" id="recordingTime"></div>
-        <p class="tip">Speak naturally. Whisper handles a noisy hall fine, so walk and talk it out.</p>
+        <p class="tip">Aim for 60 to 90 seconds. A focused minute gives a sharper summary than five minutes of wandering, and it uploads far quicker on hall wifi. Whisper copes fine with the noise.</p>
         <textarea id="voiceText" class="extra-input" placeholder="Optional: anything you'd rather type than say..." style="min-height:70px;"></textarea>
       </div>
 
@@ -595,12 +598,27 @@ async function toggleRecording() {
       btn.classList.remove('ready');
       document.getElementById('voiceBtnText').textContent = 'Recording. Tap to stop';
       document.getElementById('submitBtn').disabled = true;
-      document.getElementById('recordingTime').textContent = '0:00';
+      const t0 = document.getElementById('recordingTime');
+      t0.textContent = '0:00';
+      t0.classList.remove('long', 'toolong');
       recordingInterval = setInterval(() => {
         recordingSeconds++;
         const m = Math.floor(recordingSeconds / 60);
         const s = recordingSeconds % 60;
-        document.getElementById('recordingTime').textContent = m + ':' + String(s).padStart(2, '0');
+        const t = document.getElementById('recordingTime');
+        t.textContent = m + ':' + String(s).padStart(2, '0');
+
+        // Nudge at 2 minutes, warn at 4, stop at 5. Past roughly that the
+        // upload drags badly and a very long note can fail outright, losing
+        // the recording with it.
+        t.classList.toggle('long', recordingSeconds >= 120 && recordingSeconds < 240);
+        t.classList.toggle('toolong', recordingSeconds >= 240);
+        if (recordingSeconds === 120) showStatus('processing', 'Two minutes. Wrap up when you can.');
+        if (recordingSeconds === 240) showStatus('error', 'Four minutes. This will be slow to upload.');
+        if (recordingSeconds >= 300) {
+          toggleRecording();
+          showStatus('error', 'Stopped at five minutes. Tap Process and save, or re-record something shorter.');
+        }
       }, 1000);
     } catch (e) {
       showStatus('error', 'Microphone access denied. Allow the microphone in your browser settings.');
@@ -707,7 +725,9 @@ function newNote() {
   const vb = document.getElementById('voiceBtn');
   vb.classList.remove('ready', 'recording');
   document.getElementById('voiceBtnText').textContent = 'Tap to record';
-  document.getElementById('recordingTime').textContent = '';
+  const rt = document.getElementById('recordingTime');
+  rt.textContent = '';
+  rt.classList.remove('long', 'toolong');
   audioBase64 = null;
   recordingSeconds = 0;
   document.getElementById('submitBtn').disabled = false;
