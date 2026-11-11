@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>DMEXCO Field Notes · BidMachine</title>
+<title>Business of Apps Field Notes · BidMachine</title>
 <meta name="theme-color" content="#000426">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -336,8 +336,8 @@
 <div class="app-header">
   <div class="logo">B</div>
   <div class="header-text">
-    <h1>DMEXCO Field Notes</h1>
-    <p>Cologne · 23–24 Sept 2026</p>
+    <h1>Business of Apps Field Notes</h1>
+    <p>Berlin · Estrel Congress Center · 12 Nov 2026</p>
   </div>
   <div class="counter" id="counter" hidden></div>
 </div>
@@ -350,18 +350,10 @@
       <label class="field-label" for="repSelect">BidMachine rep</label>
       <select id="repSelect">
         <option value="">Select your name...</option>
-        <option>Mark Fruehan</option>
-        <option>Fernando Granata</option>
-        <option>Ryan Christopher</option>
-        <option>Berta Moreno</option>
-        <option>Viktor Trykolenko</option>
+        <option>Daniel Owens</option>
+        <option>Nathan Boyer</option>
+        <option>Paul Childs</option>
         <option>Radu Stoia</option>
-        <option>Andrea Aloisi</option>
-        <option>Burak Mavis</option>
-        <option>Robertas Gircys</option>
-        <option>Elica Scetbon</option>
-        <option>Olubukola Reis</option>
-        <option>Ana Breljak</option>
       </select>
     </div>
 
@@ -472,7 +464,11 @@
 </div>
 
 <script>
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwVqeCPRR5uT_VftQN0GEEr1f0KixfviFS10UMq4E_TwqmlNQp0s3yZW22ox0UlK_ur/exec';
+// Web app deployed from the Apps Script bound to the
+// "Business of Apps Berlin 2026 field notes" sheet.
+const WEBHOOK_URL = 'REPLACE_WITH_BOA_WEB_APP_URL';
+
+const EVENT_NAME = 'Business of Apps Berlin 2026';
 
 // A web permalink, not slack:// - this opens the native app through Slack's
 // universal links and falls back to the web app when it is not installed.
@@ -498,13 +494,13 @@ let currentAudience = 'internal';
 /* ---------- local storage (best effort, never fatal) ---------- */
 
 function store(key, value) {
-  try { localStorage.setItem('dmexco.' + key, value); } catch (e) {}
+  try { localStorage.setItem('boa-berlin.' + key, value); } catch (e) {}
 }
 function recall(key) {
-  try { return localStorage.getItem('dmexco.' + key); } catch (e) { return null; }
+  try { return localStorage.getItem('boa-berlin.' + key); } catch (e) { return null; }
 }
 function forget(key) {
-  try { localStorage.removeItem('dmexco.' + key); } catch (e) {}
+  try { localStorage.removeItem('boa-berlin.' + key); } catch (e) {}
 }
 
 function saveDraft() {
@@ -768,6 +764,7 @@ async function submitNote() {
 
   const payload = {
     timestamp: new Date().toISOString(),
+    event: EVENT_NAME,
     rep: rep,
     company: company,
     capture_method: currentTab,
