@@ -386,11 +386,11 @@
       <div class="tab-pane" id="tab-voice">
         <button class="voice-btn" id="voiceBtn" onclick="toggleRecording()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          <span id="voiceBtnText">Tap to record</span>
+          <span id="voiceBtnText">Tap to dictate</span>
         </button>
         <div class="recording-time" id="recordingTime"></div>
-        <p class="tip">Aim for 60 to 90 seconds. A focused minute gives a cleaner transcript than five minutes of wandering, and it uploads far quicker on hall wifi. Whisper copes fine with the noise.</p>
-        <textarea id="voiceText" class="extra-input" placeholder="Optional: anything you'd rather type than say..." style="min-height:70px;"></textarea>
+        <p class="tip" id="voiceTip">Speak and your words appear below. Check and fix them before you save, especially names and numbers. Hold the phone close: hall noise trips it up.</p>
+        <textarea id="voiceText" class="extra-input" placeholder="Your dictated note appears here. You can edit it or type." style="min-height:140px;"></textarea>
       </div>
 
       <div class="tab-pane" id="tab-slack">
@@ -464,13 +464,8 @@ const AUDIENCE_NOTES = {
 };
 
 let currentTab = 'text';
-let mediaRecorder = null;
-let audioChunks = [];
-let audioBase64 = null;
-let audioMimeType = 'audio/webm';
-let recordingInterval = null;
-let recordingSeconds = 0;
-let isRecording = false;
+let recognition = null;
+let isListening = false;
 let progressTimers = [];
 let slackSummaries = { internal: '', customer: '' };
 let currentAudience = 'internal';
@@ -536,6 +531,7 @@ function bumpCounter() {
 /* ---------- form ---------- */
 
 function switchTab(tab) {
+  if (tab !== 'voice' && isListening) stopDictation();
   currentTab = tab;
   store('tab', tab);
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
@@ -545,72 +541,72 @@ function switchTab(tab) {
   hideStatus();
 }
 
-async function toggleRecording() {
-  if (!isRecording) {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioChunks = [];
+/* ---------- dictation (browser speech recognition, no server or API key) ---------- */
 
-      const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' :
-                       MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/ogg';
-      audioMimeType = mimeType;
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-      mediaRecorder = new MediaRecorder(stream, { mimeType });
-      mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(audioChunks, { type: audioMimeType });
-        const reader = new FileReader();
-        reader.onload = e => {
-          audioBase64 = e.target.result.split(',')[1];
-          const btn = document.getElementById('voiceBtn');
-          btn.classList.add('ready');
-          document.getElementById('voiceBtnText').textContent = 'Ready. Tap to re-record';
-          document.getElementById('submitBtn').disabled = false;
-        };
-        reader.readAsDataURL(blob);
-        stream.getTracks().forEach(t => t.stop());
-      };
-      mediaRecorder.start(100);
-      isRecording = true;
-      audioBase64 = null;
-      recordingSeconds = 0;
-      const btn = document.getElementById('voiceBtn');
-      btn.classList.add('recording');
-      btn.classList.remove('ready');
-      document.getElementById('voiceBtnText').textContent = 'Recording. Tap to stop';
-      document.getElementById('submitBtn').disabled = true;
-      const t0 = document.getElementById('recordingTime');
-      t0.textContent = '0:00';
-      t0.classList.remove('long', 'toolong');
-      recordingInterval = setInterval(() => {
-        recordingSeconds++;
-        const m = Math.floor(recordingSeconds / 60);
-        const s = recordingSeconds % 60;
-        const t = document.getElementById('recordingTime');
-        t.textContent = m + ':' + String(s).padStart(2, '0');
+function setVoiceUi(listening, interim) {
+  const btn = document.getElementById('voiceBtn');
+  btn.classList.toggle('recording', listening);
+  document.getElementById('voiceBtnText').textContent = listening ? 'Listening. Tap to stop' : 'Tap to dictate';
+  document.getElementById('recordingTime').textContent = listening ? (interim || '...') : '';
+}
 
-        // Nudge at 2 minutes, warn at 4, stop at 5. Past roughly that the
-        // upload drags badly and a very long note can fail outright, losing
-        // the recording with it.
-        t.classList.toggle('long', recordingSeconds >= 120 && recordingSeconds < 240);
-        t.classList.toggle('toolong', recordingSeconds >= 240);
-        if (recordingSeconds === 120) showStatus('processing', 'Two minutes. Wrap up when you can.');
-        if (recordingSeconds === 240) showStatus('error', 'Four minutes. This will be slow to upload.');
-        if (recordingSeconds >= 300) {
-          toggleRecording();
-          showStatus('error', 'Stopped at five minutes. Tap Process and save, or re-record something shorter.');
-        }
-      }, 1000);
-    } catch (e) {
-      showStatus('error', 'Microphone access denied. Allow the microphone in your browser settings.');
+function appendDictation(text) {
+  const box = document.getElementById('voiceText');
+  const add = text.trim();
+  if (!add) return;
+  box.value = box.value ? box.value.replace(/\s+$/, '') + ' ' + add : add;
+  saveDraft();
+}
+
+function startDictation() {
+  recognition = new SpeechRec();
+  recognition.lang = navigator.language || 'en-US';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.onresult = function (e) {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) appendDictation(e.results[i][0].transcript);
+      else interim += e.results[i][0].transcript;
     }
-  } else {
-    mediaRecorder.stop();
-    isRecording = false;
-    clearInterval(recordingInterval);
-    document.getElementById('voiceBtn').classList.remove('recording');
-    document.getElementById('voiceBtnText').textContent = 'Encoding...';
-  }
+    setVoiceUi(true, interim);
+  };
+  recognition.onerror = function (e) {
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      isListening = false;
+      showStatus('error', 'Microphone access denied. Allow the microphone in your browser settings, or use the mic on your keyboard.');
+    }
+  };
+  // Phones stop listening after a pause. Carry on until the rep taps stop.
+  recognition.onend = function () {
+    if (isListening) {
+      try { recognition.start(); return; } catch (err) { isListening = false; }
+    }
+    setVoiceUi(false);
+  };
+  isListening = true;
+  recognition.start();
+  setVoiceUi(true);
+  hideStatus();
+}
+
+function stopDictation() {
+  isListening = false;
+  if (recognition) { try { recognition.stop(); } catch (err) {} }
+  setVoiceUi(false);
+}
+
+function toggleRecording() {
+  if (isListening) stopDictation();
+  else startDictation();
+}
+
+if (!SpeechRec) {
+  // No browser dictation (some in-app browsers): fall back to the keyboard mic.
+  document.getElementById('voiceBtn').style.display = 'none';
+  document.getElementById('voiceTip').textContent = 'Dictation is not available in this browser. Tap the box below, then the mic on your keyboard, and speak.';
 }
 
 function hideStatus() {
@@ -631,17 +627,12 @@ function clearProgress() {
   progressTimers = [];
 }
 
-function runProgress(hasAudio) {
+function runProgress() {
   clearProgress();
-  const steps = hasAudio
-    ? [[0, 'Uploading your recording...'], [3000, 'Transcribing...']]
-    : [[0, 'Saving...']];
-  steps.forEach(function (step) {
-    progressTimers.push(setTimeout(function () { showStatus('processing', step[1]); }, step[0]));
-  });
+  showStatus('processing', 'Saving...');
   progressTimers.push(setTimeout(function () {
-    showStatus('processing', 'Still working. Long recordings can take a little longer...');
-  }, 20000));
+    showStatus('processing', 'Still saving. Hall wifi can be slow...');
+  }, 10000));
 }
 
 /* ---------- result ---------- */
@@ -699,14 +690,7 @@ function newNote() {
   document.getElementById('companyInput').value = '';
   document.getElementById('voiceText').value = '';
   document.getElementById('slackNote').value = '';
-  const vb = document.getElementById('voiceBtn');
-  vb.classList.remove('ready', 'recording');
-  document.getElementById('voiceBtnText').textContent = 'Tap to record';
-  const rt = document.getElementById('recordingTime');
-  rt.textContent = '';
-  rt.classList.remove('long', 'toolong');
-  audioBase64 = null;
-  recordingSeconds = 0;
+  stopDictation();
   document.getElementById('submitBtn').disabled = false;
   slackSummaries = { internal: '', customer: '' };
   forget('draft');
@@ -724,23 +708,23 @@ async function submitNote() {
   if (!company) { showStatus('error', 'Please enter a partner or company name.'); return; }
 
   const textVal = document.getElementById('textNote').value.trim();
-  const voiceExtra = document.getElementById('voiceText').value.trim();
+  const voiceVal = document.getElementById('voiceText').value.trim();
   const slackVal = document.getElementById('slackNote').value.trim();
 
   if (currentTab === 'text' && !textVal) { showStatus('error', 'Please add your meeting notes.'); return; }
-  if (currentTab === 'voice' && !audioBase64 && !voiceExtra) { showStatus('error', 'Please record a voice note or add text.'); return; }
+  if (currentTab === 'voice' && !voiceVal) { showStatus('error', 'Nothing dictated yet. Tap to dictate, or type your note.'); return; }
   if (currentTab === 'slack' && !slackVal) { showStatus('error', 'Please paste a Slack message or a link to one.'); return; }
+
+  if (isListening) stopDictation();
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-
-  const hasAudio = currentTab === 'voice' && !!audioBase64;
-  runProgress(hasAudio);
+  runProgress();
 
   let rawContent = '';
   if (currentTab === 'text') rawContent = textVal;
   else if (currentTab === 'slack') rawContent = slackVal;
-  else rawContent = voiceExtra ? 'Additional context: ' + voiceExtra : '';
+  else rawContent = voiceVal;
 
   const payload = {
     timestamp: new Date().toISOString(),
@@ -748,9 +732,7 @@ async function submitNote() {
     rep: rep,
     company: company,
     capture_method: currentTab,
-    raw_content: rawContent,
-    audio_base64: hasAudio ? audioBase64 : null,
-    audio_mime_type: currentTab === 'voice' ? audioMimeType : null
+    raw_content: rawContent
   };
 
   try {
