@@ -336,8 +336,8 @@
 <div class="app-header">
   <div class="logo">B</div>
   <div class="header-text">
-    <h1>Business of Apps Field Notes</h1>
-    <p>Berlin · Estrel Congress Center · 12 Nov 2026</p>
+    <h1>Business of Apps</h1>
+    <p>Field notes · Berlin · 12 Nov 2026</p>
   </div>
   <div class="counter" id="counter" hidden></div>
 </div>
@@ -389,7 +389,7 @@
           <span id="voiceBtnText">Tap to record</span>
         </button>
         <div class="recording-time" id="recordingTime"></div>
-        <p class="tip">Aim for 60 to 90 seconds. A focused minute gives a sharper summary than five minutes of wandering, and it uploads far quicker on hall wifi. Whisper copes fine with the noise.</p>
+        <p class="tip">Aim for 60 to 90 seconds. A focused minute gives a cleaner transcript than five minutes of wandering, and it uploads far quicker on hall wifi. Whisper copes fine with the noise.</p>
         <textarea id="voiceText" class="extra-input" placeholder="Optional: anything you'd rather type than say..." style="min-height:70px;"></textarea>
       </div>
 
@@ -409,7 +409,7 @@
     <div class="actionbar">
       <button class="submit-btn" id="submitBtn" onclick="submitNote()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        Process &amp; save
+        Save note
       </button>
     </div>
 
@@ -424,11 +424,7 @@
 
     <div class="card">
       <div class="result-head">
-        <span class="field-label">Slack summary</span>
-        <div class="seg">
-          <button class="seg-btn active" id="segInternal" onclick="setAudience('internal')">Internal</button>
-          <button class="seg-btn" id="segCustomer" onclick="setAudience('customer')">Customer</button>
-        </div>
+        <span class="field-label">Slack message</span>
       </div>
       <pre class="slack-box" id="slackBox"></pre>
       <p class="audience-note" id="audienceNote"></p>
@@ -464,8 +460,7 @@ const EVENT_NAME = 'Business of Apps Berlin 2026';
 const SLACK_URL = 'https://appodeal.slack.com/';
 
 const AUDIENCE_NOTES = {
-  internal: 'Candid version. Risks and next steps included. For the team channel.',
-  customer: 'Recap you can send the partner. No internal shorthand. Read it before you send.'
+  internal: 'Your note as saved, ready to paste into the team channel.'
 };
 
 let currentTab = 'text';
@@ -639,15 +634,13 @@ function clearProgress() {
 function runProgress(hasAudio) {
   clearProgress();
   const steps = hasAudio
-    ? [[0, 'Uploading your recording...'], [3000, 'Transcribing...'], [9000, 'Summarising...']]
-    : currentTab === 'slack'
-      ? [[0, 'Reading the Slack message...'], [2500, 'Summarising...']]
-      : [[0, 'Sending...'], [2000, 'Summarising...']];
+    ? [[0, 'Uploading your recording...'], [3000, 'Transcribing...']]
+    : [[0, 'Saving...']];
   steps.forEach(function (step) {
     progressTimers.push(setTimeout(function () { showStatus('processing', step[1]); }, step[0]));
   });
   progressTimers.push(setTimeout(function () {
-    showStatus('processing', 'Still working. Long notes can take a little longer...');
+    showStatus('processing', 'Still working. Long recordings can take a little longer...');
   }, 20000));
 }
 
@@ -655,8 +648,6 @@ function runProgress(hasAudio) {
 
 function setAudience(audience) {
   currentAudience = audience;
-  document.getElementById('segInternal').classList.toggle('active', audience === 'internal');
-  document.getElementById('segCustomer').classList.toggle('active', audience === 'customer');
   document.getElementById('slackBox').textContent = slackSummaries[audience] || '';
   document.getElementById('audienceNote').textContent = AUDIENCE_NOTES[audience];
   document.getElementById('copyBtnText').textContent = 'Copy & open Slack';
